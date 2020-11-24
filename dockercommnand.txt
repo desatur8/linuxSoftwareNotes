@@ -1,0 +1,9 @@
+docker run \
+  -p 8080:8080 \
+  -v </path/to/config>:/config \
+  oznu/guacamole
+
+  docker run \
+  -p 8080:8080 \
+  -v home/desatur8/dockerTest/config \
+  oznu/guacamole
