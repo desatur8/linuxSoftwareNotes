@@ -1,0 +1,186 @@
+Arch Installation
+
+***********************
+*  Base Installation  *
+***********************
+
+check internet
+
+- Ping a website
+
+sync clock
+
+- timedatectl set-ntp true
+
+Part drives
+
+- lsblk
+- check name and size to make sure its the right drive
+- cfdisk /dev/sda
+- larger than 2tb - gpt else dos
+- boot part
+- new
+- 128mb primary
+- press B to make boot on drive
+- make the rest new, prim, write changes
+- quit
+
+format drive
+
+- mkfs.ext4 /dev/sda1
+- mkfs.ext4 /dev/sda2
+
+mount root partition
+
+- mount /dev/sda2 /mnt
+- mkdir /mnt/boot
+- mount /dev/sda1 /mnt/boot
+
+install the kernel etc
+
+- pacstrap /mnt base base-devel linux linux-firmware vim
+
+make fstab file for the drives 
+
+- genfstab /mnt will use sda for identifier, rather use below to use the UID for the disks
+- genfstab -U /mnt >> /mnt/etc/fstab
+- genfstab -U /mnt
+
+chroot into install
+
+- arch-chroot /mnt /bin/bash
+
+Install network manager and grub
+
+- pacman -S networkmanager grub
+
+systemd to start network manager on boot
+
+- systemctl enable NetworkManager
+
+config grub
+
+- grub-install /dev/sda
+
+generate grub config file
+
+- grub-mkconfig -o /boot/grub/grub.cfg
+- must say found linux.img, if not it wasnt pacstrapped
+
+create root pass
+
+- passwd
+
+generate locale
+
+- vim /etc/locale.gen
+- look for langu, uncomment
+- :wq to save
+
+generate locale
+
+- locale-gen
+
+define lang
+
+- vim /etc/locale.conf
+- LANG=en_ZA.UTF-8
+
+set hostname
+
+- vim /etc./hostname
+- choose name
+
+    set timezone
+
+    - ln -sf /usr/share/zoneinfo/
+    - tab to see regions
+    - tab to see cities
+    - ln -sf /usr/share/zoneinfo/ Africa/Johannesburg /etc/localtime
+
+exit out of chroot
+
+unmount root and boot
+
+- umount -R /mnt
+
+reboot
+
+log in with root
+
+install neofetch
+
+- pacman -S neofetch
+
+add user
+
+- useradd -mg wheel name
+- passwd user
+
+give user sudo access
+
+- vim /etc/sudoers
+- remove comment for wheel
+- add
+- Defaults !tty_tickets
+
+***********************
+*  User add and soft  *
+***********************
+
+add users
+- useradd -mg wheel name
+- passwd user
+
+give user sudo access
+- vim /etc/sudoers
+- remove comment for wheel
+- add
+- Defaults !tty_tickets
+
+install xorg for GUI
+
+- pacman -S xorg-server xorg-xinit
+
+install packages
+
+- pacman -S awesome dmenu picom lxappearance arc-gtk-theme arc-icon-theme termite nitrogen
+
+add GUI greeter
+
+- pacman -S lightdm lightdm-gtk-greeter
+- sudo systemctl enable lightdm
+
+Install yay
+
+- $ sudo pacman -S git
+- $ sudo git clone [https://aur.archlinux.org/yay.git](https://aur.archlinux.org/yay.git)
+- $ ls
+- $ sudo chown -R cloudcone:users yay
+- $ cd yay
+- $ makepkg -si
+
+install pfetch
+
+- yay pfetch
+- add at end of bashrc
+
+virtualbox-guest-utils
+
+/usr/bin/VboxClient —vmsvga
+
+create rc.ua
+
+- $ mkdir -p ~/.config/awesome
+- cp /etc/xdg/awesome/rc.lua ~/.config/awesome/
+
+edit picom
+
+- The default configuration is available in /etc/xdg/picom.conf.example. For modifications, it can be copied to ~/.config/picom/picom.conf or ~/.config/picom.conf.
+- disable vsync
+
+neofetch on every terminal
+
+1. Edit ~/.bashrc in your favourite editor
+2. Add a new line with "neofetch" in it (without the quotes)
+3. Save the file, restart terminal
