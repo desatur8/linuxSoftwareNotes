@@ -103,35 +103,30 @@ Base Installation
 - add
 - Defaults !tty_tickets
 
-***********************
-*  User add and soft  *
-***********************
+User add's and software
+===============
 
-add users
+> add users
 - useradd -mg wheel name
 - passwd user
 
-give user sudo access
+> give user sudo access
 - vim /etc/sudoers
 - remove comment for wheel
 - add
 - Defaults !tty_tickets
 
-install xorg for GUI
-
+> install xorg for GUI
 - pacman -S xorg-server xorg-xinit
 
-install packages
-
+> install packages
 - pacman -S awesome dmenu picom lxappearance arc-gtk-theme arc-icon-theme termite nitrogen
 
-add GUI greeter
-
+> add GUI greeter
 - pacman -S lightdm lightdm-gtk-greeter
 - sudo systemctl enable lightdm
 
-Install yay
-
+> Install yay
 - $ sudo pacman -S git
 - $ sudo git clone [https://aur.archlinux.org/yay.git](https://aur.archlinux.org/yay.git)
 - $ ls
@@ -139,26 +134,22 @@ Install yay
 - $ cd yay
 - $ makepkg -si
 
-install pfetch
-
+> install pfetch
 - yay pfetch
 - add at end of bashrc
 
-virtualbox-guest-utils
-
+> virtualbox-guest-utils
 /usr/bin/VboxClient —vmsvga
 
-create rc.ua
-
+> create rc.ua
 - $ mkdir -p ~/.config/awesome
 - cp /etc/xdg/awesome/rc.lua ~/.config/awesome/
 
-edit picom
-
+> edit picom
 - The default configuration is available in /etc/xdg/picom.conf.example. For modifications, it can be copied to ~/.config/picom/picom.conf or ~/.config/picom.conf.
 - disable vsync
 
-neofetch on every terminal
+> neofetch on every terminal
 
 1. Edit ~/.bashrc in your favourite editor
 2. Add a new line with "neofetch" in it (without the quotes)
