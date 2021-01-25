@@ -1,24 +1,16 @@
 Arch Installation
 
-***********************
-*  Base Installation  *
-***********************
 
-I just love **bold text**.
-
-Heading level 1
+Base Installation
 ===============
 
-check internet
-
+> check internet
 - Ping a website
 
-sync clock
-
+> sync clock
 - timedatectl set-ntp true
 
-Part drives
-
+> Part drives
 - lsblk
 - check name and size to make sure its the right drive
 - cfdisk /dev/sda
@@ -30,100 +22,82 @@ Part drives
 - make the rest new, prim, write changes
 - quit
 
-format drive
-
+> format drive
 - mkfs.ext4 /dev/sda1
 - mkfs.ext4 /dev/sda2
 
-mount root partition
-
+> mount root partition
 - mount /dev/sda2 /mnt
 - mkdir /mnt/boot
 - mount /dev/sda1 /mnt/boot
 
-install the kernel etc
-
+> install the kernel etc
 - pacstrap /mnt base base-devel linux linux-firmware vim
 
-make fstab file for the drives 
-
+> make fstab file for the drives 
 - genfstab /mnt will use sda for identifier, rather use below to use the UID for the disks
 - genfstab -U /mnt >> /mnt/etc/fstab
 - genfstab -U /mnt
 
-chroot into install
-
+> chroot into install
 - arch-chroot /mnt /bin/bash
 
-Install network manager and grub
-
+> Install network manager and grub
 - pacman -S networkmanager grub
 
-systemd to start network manager on boot
-
+> systemd to start network manager on boot
 - systemctl enable NetworkManager
 
-config grub
-
+> config grub
 - grub-install /dev/sda
 
-generate grub config file
-
+> generate grub config file
 - grub-mkconfig -o /boot/grub/grub.cfg
 - must say found linux.img, if not it wasnt pacstrapped
 
-create root pass
-
+> create root pass
 - passwd
 
-generate locale
-
+> generate locale
 - vim /etc/locale.gen
 - look for langu, uncomment
 - :wq to save
 
-generate locale
-
+> generate locale
 - locale-gen
 
-define lang
-
+> define lang
 - vim /etc/locale.conf
 - LANG=en_ZA.UTF-8
 
-set hostname
-
+> set hostname
 - vim /etc./hostname
 - choose name
 
-    set timezone
+> set timezone
+- ln -sf /usr/share/zoneinfo/
+- tab to see regions
+- tab to see cities
+- ln -sf /usr/share/zoneinfo/ Africa/Johannesburg /etc/localtime
 
-    - ln -sf /usr/share/zoneinfo/
-    - tab to see regions
-    - tab to see cities
-    - ln -sf /usr/share/zoneinfo/ Africa/Johannesburg /etc/localtime
+> exit out of chroot
+- exit
 
-exit out of chroot
-
-unmount root and boot
-
+> unmount root and boot
 - umount -R /mnt
 
-reboot
+> reboot
 
-log in with root
+> log in with root
 
-install neofetch
-
+> install neofetch
 - pacman -S neofetch
 
-add user
-
+> add user
 - useradd -mg wheel name
 - passwd user
 
-give user sudo access
-
+> give user sudo access
 - vim /etc/sudoers
 - remove comment for wheel
 - add
